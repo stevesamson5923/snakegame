@@ -64,20 +64,28 @@ def redrawwindow():
         body_list[i].draw(win)
     food.draw(win)
     pygame.display.update()
-while run:
-    redrawwindow()
+while run:    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                pass
+                head.image = pygame.transform.scale(pygame.image.load('head_up.png'),(SIZE,SIZE))
+                head.direction_x = 0
+                head.direction_y = -1
             if event.key == pygame.K_DOWN:
-                pass
+                head.image = pygame.transform.scale(pygame.image.load('head_down.png'),(SIZE,SIZE))
+                head.direction_x = 0
+                head.direction_y = 1
             if event.key == pygame.K_LEFT:
-                pass
+                head.image = pygame.transform.scale(pygame.image.load('head_left.png'),(SIZE,SIZE))
+                head.direction_x = -1
+                head.direction_y = 0
             if event.key == pygame.K_RIGHT:
-                pass
+                head.image = pygame.transform.scale(pygame.image.load('head_right.png'),(SIZE,SIZE))
+                head.direction_x = 1
+                head.direction_y = 0
             if event.key == pygame.K_r:
                 pass
+    redrawwindow()
 pygame.quit()          
