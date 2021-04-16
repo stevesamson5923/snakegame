@@ -54,14 +54,29 @@ for i in range(10):
     body_list.append(body)
 
 food = Food(300,200)
-
+turning_x = []
+turning_y = []
 def redrawwindow():
     win.fill((0,0,0))
     head.update(win)
     head.draw(win)
+    
     for i in range(len(body_list)):
         body_list[i].update(win)
         body_list[i].draw(win)
+        for j in range(len(turning_x)):
+            if body_list[i].rect.x == turning_x[j] and body_list[i].rect.y == turning_y[j]:
+                if i==0:
+                    body_list[i].direction_x = head.direction_x
+                    body_list[i].direction_y = head.direction_y
+                else:
+                    body_list[i].direction_x = body_list[i-1].direction_x
+                    body_list[i].direction_y = body_list[i-1].direction_y
+                    if i==len(body_list)-1:                       
+                        turning_x.pop(0)
+                        turning_y.pop(0)
+                        break
+
     food.draw(win)
     pygame.display.update()
 while run:    
@@ -73,18 +88,26 @@ while run:
                 head.image = pygame.transform.scale(pygame.image.load('head_up.png'),(SIZE,SIZE))
                 head.direction_x = 0
                 head.direction_y = -1
+                turning_x.append(head.rect.x)
+                turning_y.append(head.rect.y)
             if event.key == pygame.K_DOWN:
                 head.image = pygame.transform.scale(pygame.image.load('head_down.png'),(SIZE,SIZE))
                 head.direction_x = 0
                 head.direction_y = 1
+                turning_x.append(head.rect.x)
+                turning_y.append(head.rect.y)
             if event.key == pygame.K_LEFT:
                 head.image = pygame.transform.scale(pygame.image.load('head_left.png'),(SIZE,SIZE))
                 head.direction_x = -1
                 head.direction_y = 0
+                turning_x.append(head.rect.x)
+                turning_y.append(head.rect.y)
             if event.key == pygame.K_RIGHT:
                 head.image = pygame.transform.scale(pygame.image.load('head_right.png'),(SIZE,SIZE))
                 head.direction_x = 1
                 head.direction_y = 0
+                turning_x.append(head.rect.x)
+                turning_y.append(head.rect.y)
             if event.key == pygame.K_r:
                 pass
     redrawwindow()
